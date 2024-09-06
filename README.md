@@ -67,7 +67,7 @@ This command will start two containers:
 * **postgres:** runs the PostgreSQL database.
 * **app:** runs the Next.JS app with backend services.
 
-2. Apply the `Prisma` migrations:
+2. Apply the `Prisma` migrations on a separate terminal window:
 ```bash
 docker compose exec app npx prisma migrate dev --name init
 ```
