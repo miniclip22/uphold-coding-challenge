@@ -61,7 +61,7 @@ To run the project locally, follow the following steps:
 
 1. Build and start the containers:
 ```bash 
-docker-compose up --build 
+docker compose up --build 
 ```
 This command will start two containers:
 * **postgres:** runs the PostgreSQL database.
@@ -97,7 +97,7 @@ The server should now be running inside a Docker container at URL `http://localh
 | `src/__tests__/database.test.ts`              | Tests for database access                   |
 | `Dockerfile.nextjs`                           | Dockerfile for the Next.js app              |
 | `Dockerfile-postgres`                         | Dockerfile for PostgreSQL database          |
-| `docker-compose.yaml`                         | Docker Compose file to orchestrate services |
+| `docker compose.yaml`                         | Docker Compose file to orchestrate services |
 | `README.md`                                   | Project README file                         |
 
 ## Main Routes
