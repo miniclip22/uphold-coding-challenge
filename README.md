@@ -23,6 +23,7 @@ Before you begin, ensure you have the following installed on your system:
 - **npm**
 - **Docker**: v4.33.0 or later
 - **Docker Compose**: v2.29.1 or later
+- **PostgreSQL:** v16.4 or later if running locally
 
 ## Installation
 
