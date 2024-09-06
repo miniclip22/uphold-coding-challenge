@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres_container
+    environment:
+      POSTGRES_USER: my-postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.nextjs
+    command: npm run dev
+    volumes:
+      - .:/usr/src/app  # This binds the current directory to the container's working directory
+      - /usr/src/app/node_modules  # Ensures node_modules is not overwritten by the bind mount
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://my-postgres:mysecretpassword@postgres:5432/mydatabase
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

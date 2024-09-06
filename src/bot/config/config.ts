@@ -1,7 +1,7 @@
 // src/bot/config/config.ts
 export const config = {
     apiUrl: 'https://api.uphold.com/v0/ticker/',
-    currencyPairs: ['BTC-USD', 'ETH-USD'],
+    currencyPairs: ['BTC-USD', 'ETH-USD', 'LTC-USD'],
     fetchInterval: 5000,
     alertThreshold: 0.0001,
 };

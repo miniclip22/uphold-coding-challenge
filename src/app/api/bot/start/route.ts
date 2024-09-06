@@ -1,20 +1,22 @@
-// src/app/api/bot/start/route.ts
-import { NextResponse } from 'next/server';
-import { startMonitoring } from '@/app/api/bot/utils/helper';
-
-let monitoringStarted = false;
+import {NextResponse} from 'next/server';
+import {startMonitoring} from "@/app/api/bot/utils/helper";
+import {monitoringState} from "@/app/api/bot/utils/monitoringState";
 
 export async function POST() {
-    if (!monitoringStarted) {
-        startMonitoring();
-        monitoringStarted = true;
+    if (!monitoringState.monitoringStarted) {
+        await startMonitoring();
+        monitoringState.monitoringStarted = true;
         console.log('Monitoring started');
-        return NextResponse.json({ message: 'Monitoring started' });
+        return NextResponse.json({message: 'Monitoring started'});
     } else {
-        return NextResponse.json({ message: 'Monitoring is already running.' }, { status: 400 });
+        return new Response(
+            JSON.stringify({message: 'Monitoring is already running.'}),
+            {
+                status: 400,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
     }
-}
-
-export async function GET() {
-    return NextResponse.json({ message: 'GET request received' });
 }
