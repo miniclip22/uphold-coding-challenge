@@ -1,6 +1,6 @@
 # Uphold Backend Engineer Assessment
 
-This project is a backend service for monitoring cryptocurrency price changes, triggering alerts based on specific thresholds, and persisting this information in a PostgreSQL database. The service is built with Next.js, Prisma ORM, and is containerized using Docker.
+This project is a backend app for monitoring cryptocurrency price changes, triggering alerts based on specific thresholds, and persisting this information in a PostgreSQL database. It is built with Next.js, Prisma ORM, and is containerized using Docker.
 
 ## Table of Contents
 
