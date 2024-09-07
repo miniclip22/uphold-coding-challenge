@@ -1,7 +1,7 @@
 import axios from 'axios';
 import prisma from '@/prismaClient';  // import the Prisma client
-import { config } from '@/bot/config/config';
-import { monitoringState } from "@/app/api/bot/utils/monitoringState";
+import {config} from '@/bot/config/config';
+import {monitoringState} from "@/app/api/bot/utils/monitoringState";
 
 export const lastAlertRates: { [currencyPair: string]: number | null } = {};
 
@@ -15,32 +15,40 @@ export const startMonitoring = async (
         return;
     }
 
-    // Create the bot configuration in the database
-    const botConfig = await prisma.botConfig.create({
-        data: {
-            currencyPairs,
-            fetchInterval,
-            alertThreshold,
-        },
-    });
-
-    for (const pair of currencyPairs) {
-        const interval = setInterval(() => checkPrice(pair, alertThreshold, botConfig.id), fetchInterval);
-
-        // Convert intervalId to a number (or use the timeout object directly if you prefer)
-        const intervalId = Number(interval);
-
-        // Save each interval in the Interval model with the associated botConfigId
-        await prisma.interval.create({
+    // Use a transaction to ensure atomicity
+    await prisma.$transaction(async (prisma) => {
+        // Create the bot configuration in the database
+        const botConfig = await prisma.botConfig.create({
             data: {
-                intervalId,  // Store the interval ID as a number
-                botConfigId: botConfig.id,  // Use the correct botConfig.id
+                currencyPairs,
+                fetchInterval,
+                alertThreshold,
             },
         });
 
-        console.log(`Started monitoring for ${pair}, interval ID: ${intervalId}`);
-    }
-};
+        // Ensure botConfig is created successfully
+        if (!botConfig || !botConfig.id) {
+            throw new Error('Bot configuration was not created successfully.');
+        }
+
+        for (const pair of currencyPairs) {
+            const interval = setInterval(() => checkPrice(pair, alertThreshold, botConfig.id), fetchInterval);
+
+            // Convert intervalId to a number (or use the timeout object directly if you prefer)
+            const intervalId = Number(interval);
+
+            // Save each interval in the Interval model with the associated botConfigId
+            await prisma.interval.create({
+                data: {
+                    intervalId,  // Store the interval ID as a number
+                    botConfigId: botConfig.id,  // Use the correct botConfig.id
+                },
+            });
+
+            console.log(`Started monitoring for ${pair}, interval ID: ${intervalId}`);
+        }
+    });
+}
 
 export const checkPrice = async (currencyPair: string, alertThreshold: number, botConfigId: number) => {
     try {

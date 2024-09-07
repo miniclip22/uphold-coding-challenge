@@ -1,5 +1,5 @@
-import {PrismaClient} from '@prisma/client';
-import {checkPrice, lastAlertRates} from '@/app/api/bot/utils/helper';
+import { PrismaClient } from '@prisma/client';
+import { checkPrice, lastAlertRates } from '@/app/api/bot/utils/helper';
 
 const prisma = new PrismaClient();
 
@@ -29,6 +29,13 @@ describe('Alert Triggering', () => {
                 alertThreshold: 0.01,
             },
         });
+
+        if (!botConfig || !botConfig.id) {
+            throw new Error('Bot configuration was not created successfully.');
+        }
+
+        // Short delay to ensure data is fully committed
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
         // Step 2: Simulate a price change that exceeds the threshold
         lastAlertRates['BTC-USD'] = 50000; // Set initial rate in the dynamic object

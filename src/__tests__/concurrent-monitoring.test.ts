@@ -15,11 +15,11 @@ describe('Data Integrity During Concurrent Monitoring', () => {
     });
 
     beforeEach(async () => {
-        // Clear data before each test
         await prisma.alert.deleteMany();
         await prisma.interval.deleteMany();
         await prisma.botConfig.deleteMany();
         Object.keys(lastAlertRates).forEach(key => delete lastAlertRates[key]);
+
     });
 
     it('should correctly handle multiple currency pairs without data corruption', async () => {

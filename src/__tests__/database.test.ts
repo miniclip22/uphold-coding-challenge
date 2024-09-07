@@ -4,7 +4,6 @@ describe('Database Setup and Teardown', () => {
     let prisma: PrismaClient;
 
     beforeAll(async () => {
-        // Initialize SQLite database connection
         prisma = new PrismaClient();
         await prisma.$connect();
     });
@@ -14,7 +13,7 @@ describe('Database Setup and Teardown', () => {
         await prisma.$disconnect();
     });
 
-    it('should connect to the SQLite database', async () => {
+    it('should connect to the postgreSQL database', async () => {
         // Test to verify the connection to the database
         const result = await prisma.$queryRaw`SELECT 1`; // A simple query to verify connection
         expect(result).toBeTruthy(); // Check that the connection was successful

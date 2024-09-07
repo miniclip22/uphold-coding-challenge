@@ -25,10 +25,10 @@ model Interval {
 }
 
 model Alert {
-  id         Int       @id @default(autoincrement())
-  pair       String
-  rateChange Float
-  timestamp  DateTime  @default(now())
-  botConfig  BotConfig @relation(fields: [botConfigId], references: [id], onDelete: Cascade)
-  botConfigId Int
+  id           Int      @id @default(autoincrement())
+  pair         String
+  rateChange   Float
+  timestamp    DateTime @default(now())
+  botConfig    BotConfig @relation(fields: [botConfigId], references: [id], onDelete: Cascade)
+  botConfigId  Int
 }
