@@ -125,6 +125,49 @@ To apply migrations, run the following command:
 ```bash
 npx prisma migrate dev --name init
 ```
+## Usage
+
+After running the application either locally or via Docker, you can interact with the bot to start and stop monitoring prices and view alerts:
+
+1. **Start Monitoring:**
+**Endpoint:** POST `/api/bot/start`. This endpoint starts the bot and begins monitoring prices with the configured cryptocurrency pairs.
+**Example Request:** 
+```bash
+curl -X POST http://localhost:3000/api/bot/start
+```
+**Expected Response:**
+
+```bash
+app-1                  | Started monitoring for BTC-USD, interval ID: 15395
+app-1                  | Started monitoring for ETH-USD, interval ID: 15422
+app-1                  | Started monitoring for LTC-USD, interval ID: 15449
+app-1                  | Monitoring started
+app-1                  |  POST /api/bot/start 200 in 1121ms
+app-1                  | Current BTC-USD Rate: 54365.0723827946
+app-1                  | Initializing last alert rate for BTC-USD.
+app-1                  | Current LTC-USD Rate: 62.60071413
+app-1                  | Initializing last alert rate for LTC-USD.
+app-1                  | Current ETH-USD Rate: 2285.8896454115
+app-1                  | Initializing last alert rate for ETH-USD.
+app-1                  | Current BTC-USD Rate: 54365.0723827946
+app-1                  | Rate Change: 0.0000
+app-1                  | Current ETH-USD Rate: 2285.9086849016
+app-1                  | Rate Change: 0.0000
+app-1                  | Current LTC-USD Rate: 62.60071413
+```
+
+2. **Stop Monitoring:**
+**Endpoint:** POST `/api/bot/sttop`. This endpoint stops the bot and hence all monitoring activity.
+**Example Request:**
+```bash
+curl -X POST http://localhost:3000/api/bot/stop
+```
+**Example Response:**
+```json
+{
+ "message": "Monitoring stopped"
+}
+```
 
 ## Testing
 
