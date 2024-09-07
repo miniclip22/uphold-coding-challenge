@@ -36,8 +36,8 @@ Before you begin, ensure you have the following installed on your system:
    npm install
 3. **Create a `.env` file in the root directory and add the following:**
    ```bash      
-    DATABASE_URL="postgresql://<username>:<password>@localhost:5432/<database_name>"
-   example: DATABASE_URL="postgresql://my-postgres:mysecretpassword@postgres:5432/mydatabase"
+    DATABASE_URL=postgresql://<username>:<password>@localhost:5432/<database_name>
+   example: DATABASE_URL=postgresql://my-postgres:mysecretpassword@postgres:5432/mydatabase
    ```
 ## Running the Project
 
