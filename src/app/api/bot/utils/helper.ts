@@ -26,7 +26,6 @@ export const startMonitoring = async (
             },
         });
 
-        // Ensure botConfig is created successfully
         if (!botConfig || !botConfig.id) {
             throw new Error('Bot configuration was not created successfully.');
         }
@@ -34,14 +33,12 @@ export const startMonitoring = async (
         for (const pair of currencyPairs) {
             const interval = setInterval(() => checkPrice(pair, alertThreshold, botConfig.id), fetchInterval);
 
-            // Convert intervalId to a number (or use the timeout object directly if you prefer)
             const intervalId = Number(interval);
 
-            // Save each interval in the Interval model with the associated botConfigId
             await prisma.interval.create({
                 data: {
-                    intervalId,  // Store the interval ID as a number
-                    botConfigId: botConfig.id,  // Use the correct botConfig.id
+                    intervalId,
+                    botConfigId: botConfig.id,
                 },
             });
 

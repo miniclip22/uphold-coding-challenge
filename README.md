@@ -39,9 +39,15 @@ Before you begin, ensure you have the following installed on your system:
     DATABASE_URL=postgresql://<username>:<password>@localhost:5432/<database_name>
    example: DATABASE_URL=postgresql://my-postgres:mysecretpassword@postgres:5432/mydatabase
    ```
+4. **Create a `.env.test` file in the root directory and add the following:**
+   ```bash      
+    TEST_DATABASE_URL=postgresql://<username>:<password>@localhost:5432/<database_name>
+   example: TEST_DATABASE_URL=postgresql://my-postgres:mysecretpassword@localhost:5432/mydatabase_test
+   ```
+   
 ## Running the Project
 
-### Running Locally:
+### Running Locally
 
 To run the project locally, follow the following steps:
 
@@ -57,7 +63,7 @@ To run the project locally, follow the following steps:
    ```   
   The app should be running on `http://localhost:3000`. 
 
-### Running via Docker (preferred):
+### Running via Docker (preferred)
 
 1. Build and start the containers:
 ```bash 
@@ -97,8 +103,8 @@ The server should now be running inside a Docker container at URL `http://localh
 | `src/__tests__/concurrent-monitoring.test.ts` | Tests for data integrity during monitoring  |
 | `src/__tests__/database.test.ts`              | Tests for database access                   |
 | `Dockerfile.nextjs`                           | Dockerfile for the Next.js app              |
-| `Dockerfile-postgres`                         | Dockerfile for PostgreSQL database          |
-| `docker compose.yaml`                         | Docker Compose file to orchestrate services |
+| `Dockerfile.postgres`                         | Dockerfile for PostgreSQL database          |
+| `docker-compose.yaml`                         | Docker Compose file to orchestrate services |
 | `README.md`                                   | Project README file                         |
 
 ## Main Routes
@@ -118,13 +124,6 @@ The database stores two main entities:
 1. **BotConfig:** Stores the configuration of the bot at the time of monitoring.
 2. **Alert**: Stores the alerts triggered when the price changes exceed a certain threshold.
 
-## Applying Migrations
-
-To apply migrations, run the following command:
-
-```bash
-npx prisma migrate dev --name init
-```
 ## Usage
 
 After running the application either locally or via Docker, you can interact with the bot to start and stop monitoring prices and view alerts:
@@ -157,7 +156,7 @@ app-1                  | Current LTC-USD Rate: 62.60071413
 ```
 
 2. **Stop Monitoring:**
-**Endpoint:** POST `/api/bot/sttop`. This endpoint stops the bot and hence all monitoring activity.
+**Endpoint:** POST `/api/bot/stop`. This endpoint stops the bot and hence all monitoring activity.
 **Example Request:**
 ```bash
 curl -X POST http://localhost:3000/api/bot/stop
@@ -193,4 +192,3 @@ npm run test
 npx prisma generate
 ```
 if changes are made to the schema.
-* **Docker**: The project is containerized using Docker. Ensure you have Docker and Docker Compose installed to run the project.

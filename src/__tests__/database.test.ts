@@ -1,4 +1,10 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+
+// Load test environment variables
+dotenv.config({ path: '.env.test' });
+
+process.env.DATABASE_URL = process.env.TEST_DATABASE_URL;
 
 describe('Database Setup and Teardown', () => {
     let prisma: PrismaClient;

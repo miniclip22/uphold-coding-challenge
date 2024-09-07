@@ -1,5 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import {startMonitoring, stopMonitoring, lastAlertRates, checkPrice} from '@/app/api/bot/utils/helper';
+import dotenv from 'dotenv';
+
+// Load test environment variables
+dotenv.config({ path: '.env.test' });
+
+process.env.DATABASE_URL = process.env.TEST_DATABASE_URL;
 
 const prisma = new PrismaClient();
 
@@ -23,7 +29,6 @@ describe('Data Integrity During Concurrent Monitoring', () => {
     });
 
     it('should correctly handle multiple currency pairs without data corruption', async () => {
-        // Step 1: Start monitoring multiple currency pairs
         const currencyPairs: string[] = ['BTC-USD', 'ETH-USD', 'LTC-USD'];
         const botConfig = await prisma.botConfig.create({
             data: {
@@ -36,7 +41,6 @@ describe('Data Integrity During Concurrent Monitoring', () => {
         // Start monitoring
         await startMonitoring(currencyPairs, 10000, 0.05);
 
-        // Step 2: Simulate price changes for each pair
         lastAlertRates['BTC-USD'] = 50000; // Set initial rate for BTC-USD
         lastAlertRates['ETH-USD'] = 3000;  // Set initial rate for ETH-USD
         lastAlertRates['LTC-USD'] = 200;   // Set initial rate for LTC-USD
@@ -46,7 +50,6 @@ describe('Data Integrity During Concurrent Monitoring', () => {
         await checkPrice('ETH-USD', 0.05, botConfig.id); // Simulate ETH-USD
         await checkPrice('LTC-USD', 0.05, botConfig.id); // Simulate LTC-USD
 
-        // Step 3: Verify that data integrity is maintained
         // Check if alerts were correctly triggered and stored for each currency pair
         const btcAlert = await prisma.alert.findMany({
             where: {

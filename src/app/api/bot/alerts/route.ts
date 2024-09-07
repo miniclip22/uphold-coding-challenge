@@ -27,15 +27,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
             });
         }
 
-        // Update the alert using Prisma with type assertion
         const updatedAlert = await prisma.alert.update({
             where: {id},
             data: {
                 pair,
                 rateChange,
-                timestamp: new Date(timestamp), // Assuming timestamp is sent as a string
             },
-        }) as Alert;  // Type assertion to tell TypeScript this is an Alert
+        }) as Alert;
 
         return new Response(JSON.stringify(updatedAlert), {
             status: 200,
@@ -58,10 +56,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
 export async function GET(): Promise<Response> {
     try {
-        // Fetch all alerts from the database
         const alerts = await prisma.alert.findMany();
 
-        // Return the alerts as a JSON response
         return new Response(JSON.stringify(alerts), {
             status: 200,
             headers: {
