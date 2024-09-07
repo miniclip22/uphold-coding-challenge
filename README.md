@@ -80,6 +80,7 @@ The server should now be running inside a Docker container at URL `http://localh
 | `prisma/`                                     | Prisma schema and migrations                |
 | `prisma/schema.prisma`                        | Prisma schema definition                    |
 | `prisma/migrations/`                          | Migration files                             |
+| `src/bot/config.ts`                           | Bot configuration                           |
 | `src/`                                        | Source code                                 |
 | `src/app/`                                    | Main application directory                  |
 | `src/app/api/`                                | API routes                                  |
